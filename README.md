@@ -27,7 +27,7 @@ Running the program
 Default Settings (settings.json)
 ============
 Please remember to change the username and password fields, otherwise this script won't work.
-```
+```javascript
 {
     "server_address": "https://netreg.rose-hulman.edu/tools/networkUsage.pl",
     "credentials": {
@@ -40,7 +40,7 @@ Please remember to change the username and password fields, otherwise this scrip
 
 Sample Output
 =============
-```json
+```javascript
 {
     "status": "OK",
     "message": {
