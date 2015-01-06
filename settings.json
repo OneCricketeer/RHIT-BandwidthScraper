@@ -1,0 +1,8 @@
+{
+  "server_address": "https://netreg.rose-hulman.edu/tools/networkUsage.pl",
+  "credentials": {
+  	"domain": "ROSE-HULMAN\\",
+    "username": "USERNAME",
+    "password": "PASSWORD"
+  }
+}
