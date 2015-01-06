@@ -18,7 +18,8 @@ I want to further extend this code by creating a live graph of the bandwidth usa
 Running the program
 ===================
 1. Make sure Python 2.7 is installed
-2. Update the settings.json file with your Rose-Hulman network credentials, then run from a command-line
+2. Install [BeautifulSoup4] and [Requests] libraries. I recommend using [pip]
+3. Update the settings.json file with your Rose-Hulman network credentials, then run from a command-line
     ```
     python scraper.py
     ```
@@ -97,3 +98,7 @@ Sample Output
     }
 }
 ```
+
+[BeautifulSoup4]: <http://www.crummy.com/software/BeautifulSoup/>
+[Requests]: <http://docs.python-requests.org/en/latest/>
+[pip]: <https://pip.pypa.io/en/latest/installing.html>
