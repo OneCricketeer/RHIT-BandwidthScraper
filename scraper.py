@@ -1,4 +1,4 @@
-import sys, time
+import sys, time, os
 import requests
 import json
 import re
@@ -8,7 +8,10 @@ from getpass import getpass
 from requests_ntlm import HttpNtlmAuth
 # from requests_kerberos import HTTPKerberosAuth
 
-settings = json.load(open('settings.json'))
+__location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__)))
+settings_file = os.path.join(__location__, 'settings.json')
+settings = json.load(open(settings_file, 'r'))
 
 url = settings['server_address']
 domain = settings['credentials']['domain']
