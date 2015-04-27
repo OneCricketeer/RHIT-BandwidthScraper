@@ -1,0 +1,16 @@
+Usage
+-----
+id | policy_received | policy_sent | actual_received | actual_sent | timestamp=now
+
+Bandwidth
+---------
+id | class | usage_id
+
+BandwidthDevice
+---------------
+id | mac_addr | host | comment
+
+BandwidthDeviceUsage
+--------------------
+id | bandwidth_id | device_id | usage_id
+

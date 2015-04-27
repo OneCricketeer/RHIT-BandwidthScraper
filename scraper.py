@@ -6,7 +6,7 @@ import re
 from bs4 import BeautifulSoup
 from getpass import getpass
 from requests_ntlm import HttpNtlmAuth
-
+from db_models import DbUsage, DbBandwidth, DbBandwidthDevice, DbBandwidthDeviceUsage
 # from requests_kerberos import HTTPKerberosAuth
 
 __location__ = os.path.realpath(
@@ -177,6 +177,71 @@ def get_json_all_data():
                 "message": "A connection error occurred.", "content": r.content}
     return json.dumps(data)
 
+
+def db_save(data):
+    from db_models import Session
+
+    db_session = Session()
+
+    # parse it
+    actual_received = data["actual_bytes"]["received"]
+    policy_received = data["policy_bytes"]["received"]
+    actual_sent = data["actual_bytes"]["sent"]
+    policy_sent = data["policy_bytes"]["sent"]
+
+    # total usage
+    db_total_usage = DbUsage(
+        policy_received=float(re.sub(r'[^\d.]', '', policy_received)),
+        actual_received=float(re.sub(r'[^\d.]', '', actual_received)),
+        policy_sent=float(re.sub(r'[^\d.]', '', policy_sent)),
+        actual_sent=float(re.sub(r'[^\d.]', '', actual_sent))
+    )
+    db_session.add(db_total_usage)
+    db_session.commit()
+
+    # current bandwidth cap
+    db_bandwidth = DbBandwidth(bandwidth_class=data["bandwidth_class"], usage_id=db_total_usage.id)
+    db_session.add(db_bandwidth)
+    db_session.commit()
+
+    # per device usage
+    devices = data["devices"]
+    for dev in devices:
+        actual_received = dev["actual_bytes"]["received"]
+        policy_received = dev["policy_bytes"]["received"]
+        actual_sent = dev["actual_bytes"]["sent"]
+        policy_sent = dev["policy_bytes"]["sent"]
+
+        db_dev_usage = DbUsage(
+            policy_received=float(re.sub(r'[^\d.]', '', policy_received)),
+            actual_received=float(re.sub(r'[^\d.]', '', actual_received)),
+            policy_sent=float(re.sub(r'[^\d.]', '', policy_sent)),
+            actual_sent=float(re.sub(r'[^\d.]', '', actual_sent))
+        )
+        db_session.add(db_dev_usage)
+        db_session.commit()
+
+        # add or get device info
+        db_bandwidth_device = DbBandwidthDevice(
+            net_addr=dev["network_address"],
+            host=dev["host"],
+            comment=dev["comment"]
+        )
+        query = db_session.query(DbBandwidthDevice).filter(DbBandwidthDevice.net_addr == db_bandwidth_device.net_addr)
+        if query.count() == 0:
+            db_session.add(db_bandwidth_device)
+            db_session.commit()
+        else:
+            db_bandwidth_device = query.first()
+        db_bandwidth_dev_usage = DbBandwidthDeviceUsage(
+            bandwidth_id=db_bandwidth.id,
+            device_id=db_bandwidth_device.id,
+            usage_id=db_dev_usage.id
+        )
+        db_session.add(db_bandwidth_dev_usage)
+        db_session.commit()
+
+
 def main():
     delay = 360
 
@@ -190,6 +255,8 @@ def main():
 
             print "Bandwidth Class: ", bandwidth_class
             print "Bytes Received: Policy: {0} ; Actual: {1}".format(policy_received, actual_received)
+
+            db_save(data)
         else:
             print data
 
