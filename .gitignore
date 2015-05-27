@@ -1,6 +1,7 @@
 # My files
 settings-moorejm.json
 scraper-moorejm.py
+bandwidth.db
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion
 *.iml
