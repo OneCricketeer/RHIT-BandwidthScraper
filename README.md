@@ -2,6 +2,9 @@ RHIT-BandwidthScraper
 ==========
 Converts the Rose-Hulman Bandwidth website to JSON
 
+## ⚠️⚠️ Project is no longer maintained ⚠️⚠️
+<sub>I graduated!! 🎉🎉</sub>
+
 #### Overview:  
 I was getting tired of needing to relogin to the webpage on which students are able to check their bandwidth, and so I wrote this script to authenticate with the site and put all the relevant information into JSON.
 
@@ -11,9 +14,9 @@ The first table is the Network Usage Summary table. It contains the Bandwidth Cl
 The second table contains a list of devices the authenticated user has registered on the network and a breakdown of their individual network usage.
 
 #### Further Steps:
-The initial thought for this project was a method of a RESTful API for my Raspberry Pi. I have not decided how I want to set that up yet. I think I would need to securely send user credentials to the API, so I need to figure out how to do that first.  
+The initial thought for this project was a method of a RESTful API for my Raspberry Pi. I have not decided how I want to set that up yet. I think I would need to securely send user credentials to the API, <strike>so I need to figure out how to do that first.  
 
-I want to further extend this code by creating a live graph of the bandwidth usage for a user by polling this data every few minutes. I have some ideas how to manage this, so I will start this next.
+I want to further extend this code by creating a live graph of the bandwidth usage for a user by polling this data every few minutes. I have some ideas how to manage this, so I will start this next.</strike>
 
 Running the program
 ===================
